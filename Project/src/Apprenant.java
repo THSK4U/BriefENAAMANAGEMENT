@@ -32,7 +32,7 @@ public class Apprenant {
                     SupprimerApprenant.supprimerApprenant(apprenantDetails, scanner);
                     break;
                 case 5:
-                    System.out.println("test5");
+                    RechercherApprenant.rechercherApprenant(apprenantDetails, scanner);
                     break;
                 case 6:
                     retourMenu = true;
@@ -68,19 +68,7 @@ public class Apprenant {
     public static void afficherListeApprenants(ApprenantDetails apprenantDetails) {
         System.out.println("Liste des apprenants :");
         for (int i = 0; i < apprenantDetails.n; i++) {
-            System.out.print("\t Nom : " + apprenantDetails.getNom(i));
-            System.out.print("\t Prénom : " + apprenantDetails.getPrenom(i));
-            System.out.print("\t Date de naissance : " + apprenantDetails.getDateNaissance(i));
-            System.out.print("\t Adresse : " + apprenantDetails.getAdresse(i));
-            System.out.print("\t Contact : " + apprenantDetails.getContact(i));
-            System.out.println("\t Numéro de classe : " + apprenantDetails.numeroClasse[i]);
-            System.out.println("---------------------");
-        }
-    }
-
-    public static void afficherListeApprenantsavecindex(ApprenantDetails apprenantDetails) {
-        for (int i = 0; i < apprenantDetails.n; i++) {
-            System.out.println("L'index' :" + (i + 1));
+            System.out.println("Numéro de d'identifiant :" + (i + 1));
             System.out.print("\t Nom : " + apprenantDetails.getNom(i));
             System.out.print("\t Prénom : " + apprenantDetails.getPrenom(i));
             System.out.print("\t Date de naissance : " + apprenantDetails.getDateNaissance(i));
@@ -91,7 +79,6 @@ public class Apprenant {
         }
     }
 }
-
 class ApprenantDetails {
     private String[] nom;
     private String[] prenom;
@@ -155,7 +142,7 @@ class ApprenantDetails {
 
 class ModifierApprenant {
     public static void modifierApprenant(ApprenantDetails apprenantDetails, Scanner scanner) {
-        Apprenant.afficherListeApprenantsavecindex(apprenantDetails);
+        Apprenant.afficherListeApprenants(apprenantDetails);
 
         System.out.print("Saisissez l'index de l'apprenant que vous souhaitez modifier: ");
         int choixMod = scanner.nextInt();
@@ -163,9 +150,9 @@ class ModifierApprenant {
         System.out.println("Sélectionnez le champ que vous souhaitez modifier: ");
         System.out.println("1. Nom \t 2. Prénom \t 3. Date de naissance \t 4. Adresse \t 5. Contact \t 6. Numéro de classe ");
         int modification = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+        scanner.nextLine();
 
-        System.out.print("Saisissez la nouvelle valeur : ");
+        System.out.print("Saisissez la nouvelle : ");
         String newValue = scanner.nextLine();
         switch (modification) {
             case 1:
@@ -193,7 +180,7 @@ class ModifierApprenant {
 }
 class SupprimerApprenant {
     public static void supprimerApprenant(ApprenantDetails apprenantDetails, Scanner scanner) {
-        Apprenant.afficherListeApprenantsavecindex(apprenantDetails);
+        Apprenant.afficherListeApprenants(apprenantDetails);
 
         System.out.print("Saisissez l'index que vous souhaitez Supprimer: ");
         int choixSupprimer = scanner.nextInt();
@@ -212,3 +199,54 @@ class SupprimerApprenant {
 
         }
     }
+
+class RechercherApprenant {
+    public static void rechercherApprenant(ApprenantDetails apprenantDetails, Scanner scanner) {
+        System.out.println("nombre des apprenant: " + apprenantDetails.n);
+        System.out.println("Entrez la méthode de recherche : ");
+        System.out.println("1. Nom et Prénom \t 2. Numéro de d'identifiant ");
+        int methode = scanner.nextInt();
+        scanner.nextLine();
+        switch (methode) {
+            case 1:
+                System.out.print("Entrez Nom : ");
+                String rechnom = scanner.next();
+                System.out.print("Entrez prénom : ");
+                String rechprénom = scanner.next();
+                for (int i = 0; i < apprenantDetails.n; i++) {
+                    if (apprenantDetails.getNom(i).equals(rechnom) && apprenantDetails.getPrenom(i).equals(rechprénom)) {
+                        System.out.print("\t Nom : " + apprenantDetails.getNom(i));
+                        System.out.print("\t Prénom : " + apprenantDetails.getPrenom(i));
+                        System.out.print("\t Date de naissance : " + apprenantDetails.getDateNaissance(i));
+                        System.out.print("\t Adresse : " + apprenantDetails.getAdresse(i));
+                        System.out.print("\t Contact : " + apprenantDetails.getContact(i));
+                        System.out.println("\t Numéro de classe : " + apprenantDetails.numeroClasse[i]);
+                        System.out.println("---------------------");
+                    } else {
+                        System.out.println("Aucun apprenant ne possède cette information");
+                    }
+                }
+                break;
+            case 2:
+                System.out.println("Entrez Numéro de d'identifiant : ");
+                String id = scanner.next();
+                int ID = Integer.parseInt(id) - 1;
+                if (ID >= 0 && ID < apprenantDetails.n) {
+                    System.out.print("\t Nom : " + apprenantDetails.getNom(ID));
+                    System.out.print("\t Prénom : " + apprenantDetails.getPrenom(ID));
+                    System.out.print("\t Date de naissance : " + apprenantDetails.getDateNaissance(ID));
+                    System.out.print("\t Adresse : " + apprenantDetails.getAdresse(ID));
+                    System.out.print("\t Contact : " + apprenantDetails.getContact(ID));
+                    System.out.println("\t Numéro de classe : " + apprenantDetails.numeroClasse[ID]);
+                    System.out.println("---------------------");
+                } else {
+                    System.out.println("Aucun apprenant ne possède cette information");
+                }
+                break;
+            default:
+                System.out.println("Choix invalide");
+
+
+        }
+    }
+}
